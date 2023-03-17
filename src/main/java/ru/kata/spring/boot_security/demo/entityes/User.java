@@ -1,29 +1,51 @@
 package ru.kata.spring.boot_security.demo.entityes;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
+import java.util.Objects;
+
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "username field cannot be empty")
     @Column(name = "username", nullable = false)
     private String username;
 
+    @NotBlank(message = "password field cannot be empty")
     @Column(name = "password", nullable = false)
     private String password;
 
+    @NotBlank(message = "email field cannot be empty")
     @Column(name = "email", nullable = false)
     private String email;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @NotBlank(message = "Roles field cannot be empty")
     private Collection<Role> roles;
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+        role.getUsers().add(this);
+    }
+
+    public void removeRole(Role role) {
+        this.roles.remove(role);
+        role.getUsers().remove(this);
+    }
 
     public Collection<Role> getRoles() {
         return roles;
@@ -54,8 +76,33 @@ public class User {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
     }
 
     public String getPassword() {
@@ -72,5 +119,30 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String roleToString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Role role : roles) {
+            stringBuilder.append(role.getRoleName()).append(" ");
+        }
+        return stringBuilder.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getId().equals(user.getId())
+                && getUsername().equals(user.getUsername())
+                && getPassword().equals(user.getPassword())
+                && getEmail().equals(user.getEmail())
+                && getRoles().equals(user.getRoles());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUsername(), getPassword(), getEmail(), getRoles());
     }
 }
