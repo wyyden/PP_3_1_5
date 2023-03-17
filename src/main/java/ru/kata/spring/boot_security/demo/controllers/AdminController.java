@@ -26,6 +26,12 @@ public class AdminController {
         return "admin";
     }
 
+    @GetMapping("/showUser/{id}")
+    public String user(ModelMap model, @PathVariable Long id) {
+        model.addAttribute("user", userService.findById(id));
+        return "/showUser";
+    }
+
     @GetMapping("/users")
     public String listUsers(ModelMap model) {
         model.addAttribute("users", userService.getAllUsers());
@@ -49,7 +55,7 @@ public class AdminController {
     public String edit(ModelMap model, @PathVariable("id") Long id) {
         model.addAttribute("user", userService.findById(id));
         model.addAttribute("roles", roleService.getRoles());
-        return "edit";
+        return "/edit";
     }
 
     @PatchMapping("/{id}")
