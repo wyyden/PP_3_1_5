@@ -11,19 +11,16 @@
         <tr>
             <th><label for="name">Enter username</label></th>
             <th><input type="text" th:field="*{username}" id="name"/></th>
-            <p th:if="${#fields.hasErrors('username')}" th:errorclass="error" th:errors="*{username}"></p>
         </tr>
 
         <tr>
             <th><label for="lastName">Enter password</label></th>
             <th><input type="text" th:field="*{password}" id="lastName"/></th>
-            <p th:if="${#fields.hasErrors('password')}" th:errorclass="error" th:errors="*{password}"></p>
         </tr>
 
         <tr>
             <th><label for="email">Enter email</label></th>
             <th><input type="text" th:field="*{email}" id="email"/></th>
-            <p th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"></p>
         </tr>
 
         <tr>
@@ -34,7 +31,6 @@
                 th:text="${role.getRoleName()}"
                 th:value="${role.id}"
                 th:field="*{roles}">
-                <p th:if="${#fields.hasErrors('roles')}" th:errorclass="error" th:errors="*{roles}"></p>
             </th>
         </tr>
 

@@ -4,7 +4,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -18,15 +17,12 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "username field cannot be empty")
     @Column(name = "username", nullable = false)
     private String username;
 
-    @NotBlank(message = "password field cannot be empty")
     @Column(name = "password", nullable = false)
     private String password;
 
-    @NotBlank(message = "email field cannot be empty")
     @Column(name = "email", nullable = false)
     private String email;
 
@@ -34,7 +30,6 @@ public class User implements UserDetails {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @NotBlank(message = "Roles field cannot be empty")
     private Collection<Role> roles;
 
     public void addRole(Role role) {
