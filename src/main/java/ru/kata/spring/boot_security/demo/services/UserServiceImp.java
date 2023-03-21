@@ -27,13 +27,11 @@ public class UserServiceImp implements UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @Transactional
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
     @Override
-    @Transactional
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -63,7 +61,6 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    @Transactional
     public User findById(Long id) {
         return userRepository.findById(id).get();
     }
