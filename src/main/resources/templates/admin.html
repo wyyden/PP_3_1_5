@@ -133,6 +133,18 @@
                                                                 </p>
 
                                                                 <p>
+                                                                    <label class="col-5" for="editUserAge" >
+                                                                        <strong>Age</strong>
+                                                                        <input class="form-control" th:type="number"
+                                                                               th:name="age"
+                                                                               id="editUserAge" placeholder="Age"
+                                                                               min="0" max="200" step="1"
+                                                                               th:size="10"
+                                                                               th:value="${user.age}" required>
+                                                                    </label>
+                                                                </p>
+
+                                                                <p>
                                                                     <label for="editUserEmail">
                                                                         <strong>Email</strong>
                                                                         <input class="form-control" th:type="email"
