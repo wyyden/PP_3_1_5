@@ -1,18 +1,16 @@
 package ru.kata.spring.boot_security.demo.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.entityes.Role;
 import ru.kata.spring.boot_security.demo.entityes.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
-import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +30,12 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        for (User user: users) {
+            user.getRoles();
+        }
         return userRepository.findAll();
     }
 
@@ -59,7 +62,6 @@ public class UserServiceImp implements UserService {
             userRepository.save(user);
         }
     }
-
 
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

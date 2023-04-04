@@ -10,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ru.kata.spring.boot_security.demo.services.UserServiceImp;
 
+import javax.transaction.Transactional;
+
 @Configuration
 @EnableWebSecurity
 public class  WebSecurityConfig extends WebSecurityConfigurerAdapter {

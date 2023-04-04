@@ -33,14 +33,23 @@ public class User implements UserDetails {
     @Column(name = "age")
     private Byte age;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+
     private Set<Role> roles;
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public String getRolesToString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Role role: roles) {
+            stringBuilder.append(role.getRoleName()).append(" ");
+        }
+        return stringBuilder.toString();
     }
 
     public void setRoles(Set<Role> roles) {
@@ -48,14 +57,6 @@ public class User implements UserDetails {
     }
 
     public User() {
-    }
-
-    public User(String firstName, String lastName, String password, String email, Byte age) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.email = email;
-        this.age = age;
     }
 
     public User(String firstName, String lastName, String password, String email, Byte age, Set<Role> roles) {
@@ -148,14 +149,6 @@ public class User implements UserDetails {
 
     public void setAge(Byte age) {
         this.age = age;
-    }
-
-    public String roleToString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Role role : roles) {
-            stringBuilder.append(role.getRoleName()).append(" ");
-        }
-        return stringBuilder.toString();
     }
 
     @Override

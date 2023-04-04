@@ -9,7 +9,7 @@
 
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <h2 class="text-white mb-0">
-        <span class="nav_text_bold" th:text="${user.getEmail()} +' with roles: ' + ${user.roleToString()}"/>
+        <span class="nav_text_bold" th:text="${user.getEmail()} +' with roles: ' + ${user.getRolesToString()}"/>
     </h2>
 
     <ul class="navbar-nav px-3">
@@ -57,7 +57,7 @@
                                         <td th:text="${user.getLastName()}"></td>
                                         <td th:text="${user.getAge()}"></td>
                                         <td th:text="${user.getEmail()}"></td>
-                                        <td th:text="${user.roleToString()}"></td>
+                                        <td th:text="${user.getRolesToString()}"></td>
                                     </tr>
                                     </tbody>
                                 </table>
