@@ -14,4 +14,7 @@ public interface UserService extends UserDetailsService {
 
     public void updateUser(User user);
 
+    public User findById(Long id);
+
+    User getAuthUser();
 }
