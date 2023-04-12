@@ -64,8 +64,8 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
-    public void updateUser(User user) {
-        if (userRepository.findByEmail(user.getEmail()).getPassword().equals(user.getPassword())) {
+    public void updateUser(User user, Long id) {
+        if (userRepository.findById(id).get().getPassword().equals(user.getPassword())) {
             userRepository.save(user);
         } else {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -80,8 +80,7 @@ public class UserServiceImp implements UserService {
             throw new UsernameNotFoundException(String.format("User with email '%s' not found", email));
         }
 
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-                user.getAuthorities());
+        return user;
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthority(Collection<Role> roles) {

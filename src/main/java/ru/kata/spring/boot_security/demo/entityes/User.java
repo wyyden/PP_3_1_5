@@ -166,4 +166,17 @@ public class User implements UserDetails {
     public int hashCode() {
         return Objects.hash(getId(), getFirstName(), getPassword(), getEmail(), getRoles());
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                ", roles=" + roles +
+                '}';
+    }
 }
