@@ -61,11 +61,4 @@ public class  WebSecurityConfig extends WebSecurityConfigurerAdapter {
         daoAuthenticationProvider.setUserDetailsService(userServiceImp);
         return daoAuthenticationProvider;
     }
-
-    @Bean
-    public ObjectMapper getMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        return objectMapper;
-    }
 }
